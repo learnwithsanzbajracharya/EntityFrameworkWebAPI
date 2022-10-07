@@ -10,7 +10,10 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<ArticleDBContext>(options =>
-options.UseSqlServer("server=localhost;database=BlogArticle;user id=sa;password=***********"));
+options.UseSqlServer("server=localhost;database=BlogArticle;user id=sa;password=************"));
+
+builder.Services.AddCors(options => options.AddPolicy("defaultPolicy",
+    policy => policy.WithOrigins("http://localhost:3000").AllowAnyHeader().AllowAnyMethod()));
 
 var app = builder.Build();
 
@@ -26,5 +29,7 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.UseCors("defaultPolicy");
 
 app.Run();
